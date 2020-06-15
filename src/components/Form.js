@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import ReactDOM from 'react-dom';
 //import {Route, Link} from 'react-router-dom';
 import * as yup from 'yup';
 import axios from 'axios';
+import OrderUp from './OrderUp';
 
 const Form = (props) => {
 
@@ -32,7 +32,7 @@ const Form = (props) => {
 
     const formSchema = yup.object().shape({
         name: yup.string().required('Name is a required field').min(2, "Name must be at least 2 characters"),
-        size: yup.object().required('Must select a size'),
+        size: yup.string().required('Must select a size'),
         pepperoni: yup.boolean().defined(),
         sausage: yup.boolean().defined(),
         pineapple: yup.boolean().defined(),
@@ -87,9 +87,9 @@ const Form = (props) => {
     const inputChange = (event) => {
         event.persist();
         
-        const newFormData = {...form, [event.target.name]: (event.target.type === 'checkbox' ? event.target.checked : event.target.value)}
+        //const newFormData = {...form, [event.target.name]: (event.target.type === 'checkbox' ? event.target.checked : event.target.value)}
         validate(event);
-        setForm(newFormData);
+        setForm({...form, [event.target.name]: (event.target.type === 'checkbox' ? event.target.checked : event.target.value)});
     }
 
     return(
@@ -99,12 +99,12 @@ const Form = (props) => {
                     <input type='text' placeholder='Name' name='name' data-cy='name' value={form.name} onChange={inputChange} className='name' />
                 </label> <br />
                 <label htmlFor='size' >Pick a size <br />
-                    <select className='size' data-cy='size' value={form.size} onChange={inputChange} >
+                    <select className='size' data-cy='size' value={form.size} onChange={option => setForm(form.name, option)} >
                         <option value='null' disabled>Select a size</option>
-                        <option value={form.size}>Small</option>
-                        <option value={form.size}>Medium</option>
-                        <option value={form.size}>Large</option>
-                        <option value={form.size}>Extra Large</option>
+                        <option value='small'>Small</option>
+                        <option value='medium'>Medium</option>
+                        <option value='large'>Large</option>
+                        <option value='extraLarge'>Extra Large</option>
                     </select>
                 </label> <br />
                 <label htmlFor='toppings'>Toppings <br />
@@ -118,6 +118,7 @@ const Form = (props) => {
                 </label> <br />
                 <button disabled={buttonDisabled}>Submit</button>
             </form>
+            {post.map((order) => (<OrderUp className='order' name={order.name} size={order.size} pepperoni={order.pepperoni} sausage={order.sausage} pineapple={order.pineapple} cheese={order.cheese} special_instructions={order.special_instructions} /> ))}
         </div>
     )
 }
