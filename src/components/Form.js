@@ -6,7 +6,8 @@ import OrderUp from './OrderUp';
 
 const Form = (props) => {
 
-    const[form, setForm] = useState({
+    const [text, setText] = useState('Add to Order')
+    const [form, setForm] = useState({
         name: '',
         size: 'Small',
         pepperoni: false,
@@ -29,6 +30,12 @@ const Form = (props) => {
         sauce: '',
         glutenFree: false
     })
+
+    const button1 = document.getElementsByTagName('button');
+    console.log(button1);
+    function pizzaReady(){
+        setText('Congrats! Pizza is on its way!');
+    }
 
     const [post, setPost] = useState([])
 
@@ -137,7 +144,7 @@ const Form = (props) => {
                 <label htmlFor='specialInstructions' className='textArea'>
                     <textarea value={form.special_instructions} data-cy='special_instructions' onChange={inputChange} name='special_instructions'>Special instructions...</textarea>
                 </label> <br />
-                <button disabled={buttonDisabled} data-cy='submit'>Add to Order</button>
+                <button disabled={buttonDisabled} data-cy='submit' onClick={pizzaReady}>{text}</button>
             </form>
             <br />
             <br />
