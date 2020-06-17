@@ -7,16 +7,16 @@ describe('Testing our form inputs', function() {
 
     it("add test to inputs and submit form", function () {
         cy.get('[data-cy="name"]')
-        .type("Jay")
-        .should('have.value', "Jay")
+        .type("Nico")
+        .should('have.value', "Nico")
 
         cy.get('[data-cy="size"]').select('Medium')
 
        cy.get('[type="checkbox"]').check().should('be.checked')
 
        cy.get('[data-cy="special_instructions"]')
-       .type("Please apply 1/2 off coupon to my order. Thank you!")
-       .should('have.value', "Please apply 1/2 off coupon to my order. Thank you!")
+       .type("Use Mozarella")
+       .should('have.value', "Use Mozarella")
 
        cy.get('[data-cy="submit"').click();
 
